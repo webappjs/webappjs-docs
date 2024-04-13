@@ -1,0 +1,41 @@
+webapp.createModule({
+    $include: '@library/marked/marked.min.js',
+    $construct: function () {
+        // 加载状态
+        this.loading = webapp.createSignal(true);
+        // 数据
+        this.data = webapp.createSignal(null);
+        // 错误信息
+        this.error = null;
+    },
+    /**
+     * 加载数据
+     */
+    load() {
+        this.loading.set(true);
+        this.data.set(null);
+        this.error = null;
+        fetch(webapp.createURL('README.md', window.location.href).stringify())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                /**
+                 * 在这里处理接收到的数据
+                 * 将内容编译成html
+                 */
+                this.data.set(marked(data));
+                // 加载状态完成
+                this.loading.set(false);
+            })
+            .catch(error => {
+                this.loading.set(false);
+                this.error = error;
+                console.error(error);
+            });
+    },
+
+});

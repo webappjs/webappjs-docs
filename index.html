@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <title>webappjs - 是面向模板与交互分离, 基于 ECMAScript 5 特性的单页应用 (SPA) 框架。</title>
+    <meta name="keywords" content="webapp.js,webappjs">
+    <meta name="description" content="webappjs 是面向模板与交互分离, 基于 ECMAScript 5 特性的单页应用 (SPA) 框架。webappjs is a single-page application (SPA) framework that emphasizes the separation of template and interaction, based on the features of ECMAScript 5.">
+    
+    <!-- 禁用IE浏览器 -->
+    <script>
+        if (!!window.ActiveXObject || "ActiveXObject" in window) { 
+            var message = "您正在使用IE浏览器, 将不能正常浏览和使用, 请更换浏览器！ You are using Internet Explorer, will not be able to browse and use normally, please change the browser!";
+            alert(message);
+            window.stop ? window.stop () : document.execCommand ("Stop");
+            throw new Error (message);
+        }
+    </script>
+    <!-- <script type="text/javascript" src="http://127.0.0.1:5501/src/webapp.js"></script> -->
+    <script type="text/javascript" src="library/webapp/webapp.min.js?v1.0.0"></script>
+    <script type="text/javascript" src="src/main.js"></script>
+</head>
+<body>
+    <noscript><strong>Sorry, webappjs will not work properly without JavaScript support. Enable JavaScript for browsers and continue.</strong></noscript>
+</body>
+</html>

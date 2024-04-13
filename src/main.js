@@ -5,7 +5,11 @@ webapp.configureInclude({
             e.src = e.src.replace(/^\@/i, '');
         } else {
             // 可以根据基础地址生成资源的绝对路径
-            e.src = webapp.createURL(e.src, webapp.currentSrc()).stringify();
+            var url = webapp.createURL(e.src, webapp.currentSrc());
+            if (webapp.builder && webapp.builder.version) {
+                url.query.v = webapp.builder.version;
+            }
+            e.src = url.stringify();
         }
         // console.log('filter', e, webapp.currentSrc(), webapp.createURL(e.src, webapp.baseSrc).stringify());
     },

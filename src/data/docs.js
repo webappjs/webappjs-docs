@@ -15,7 +15,12 @@ webapp.createModule({
         this.loading.set(true);
         this.data.set(null);
         this.error = null;
-        fetch(webapp.createURL('README.md', window.location.href).stringify())
+
+        var url = webapp.createURL('README.md', window.location.href);
+        if (webapp.builder && webapp.builder.version) {
+            url.query.v = webapp.builder.version;
+        }
+        fetch(url.stringify())
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Request failed with status ${response.status}`);

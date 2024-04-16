@@ -175,35 +175,37 @@ createModule 是创建模块。
 createModule is to create a module.
 
 ```js
-webapp.createModule({
+webapp.createModule(function() {
+    return {
 
-    /**
-     * 是否为影子模块, 如果是影子模块，那么不会被记录到包含文件中
-     * Whether it is a shadow module; if it is a shadow module, it will not be recorded in the inclusion file.
-     * @type {Boolean}
-     */
-    $shadow: false,
+        /**
+         * 是否为影子模块, 如果是影子模块，那么不会被记录到包含文件中
+         * Whether it is a shadow module; if it is a shadow module, it will not be recorded in the inclusion file.
+         * @type {Boolean}
+         */
+        $shadow: false,
 
-    /**
-     * 是否为抽象模块, 抽象模块不能被使用，只能用来被拷贝
-     * Whether it is an abstract module; abstract modules cannot be used directly, they can only be copied.
-     * @type {Boolean}
-     */
-    $abstract: false,
+        /**
+         * 是否为抽象模块, 抽象模块不能被使用，只能用来被拷贝
+         * Whether it is an abstract module; abstract modules cannot be used directly, they can only be copied.
+         * @type {Boolean}
+         */
+        $abstract: false,
 
-    /**
-     * 是否为非阻塞模块, 非阻塞模块在创建时，不登记到创建列表，也不会去判断创建列表数据
-     * Whether it is a non-blocking module; non-blocking modules, upon creation, are not registered in the creation list and do not evaluate data within the creation list.
-     * @type {Boolean}
-     */
-    $nonblock: false,
+        /**
+         * 是否为非阻塞模块, 非阻塞模块在创建时，不登记到创建列表，也不会去判断创建列表数据
+         * Whether it is a non-blocking module; non-blocking modules, upon creation, are not registered in the creation list and do not evaluate data within the creation list.
+         * @type {Boolean}
+         */
+        $nonblock: false,
 
-    /**
-     * 构造对象、函数、模型
-     * Constructing objects, functions, and models
-     * @type {Function|Model|Object}
-     */
-    $construct: null,
+        /**
+         * 构造对象、函数、模型
+         * Constructing objects, functions, and models
+         * @type {Function|Model|Object}
+         */
+        $construct: null,
 
+    };
 });
 ```

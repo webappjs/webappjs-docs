@@ -1,59 +1,60 @@
-webapp.createModule({
-    $include: [
-        /**
-         * 模板样式:
-         * https://www.bootmb.com/themes/boomerang/
-         */
-        '../assets/css/theme.css',
-        '../assets/css/demo.css',
-
-        /**
-         * prism 代码高亮
-         * https://prismjs.com/
-         */
-        '@library/prism/prism.css',
-        {
-            src: '@library/prism/prism.js',
-            wait: true,
+webapp.createModule(function() {
+    this.navigation = webapp.createSignal();
+    this.sidebarToggled = webapp.createSignal(false);
+    
+    return {
+        $include: [
+            /**
+             * 模板样式:
+             * https://www.bootmb.com/themes/boomerang/
+             */
+            '../assets/css/theme.css',
+            '../assets/css/demo.css',
+    
+            /**
+             * prism 代码高亮
+             * https://prismjs.com/
+             */
+            '@library/prism/prism.css',
+            {
+                src: '@library/prism/prism.js',
+                wait: true,
+            },
+    
+            '../assets/css/index.css',
+            
+            {
+                src: 'home.html',
+                type: 'template',
+            },
+            {
+                src: '../data/website.js',
+                type: 'module',
+                use: 'Website'
+            },
+            {
+                src: '../data/docs.js',
+                type: 'module',
+                use: 'Docs'
+            },
+        ],
+        $selector: 'body',
+        onrender() {
+            // 加载文档
+            this.Docs.load();
         },
-
-        '../assets/css/index.css',
-        
-        {
-            src: 'home.html',
-            type: 'template',
-        },
-        {
-            src: '../data/website.js',
-            type: 'module',
-            use: 'Website'
-        },
-        {
-            src: '../data/docs.js',
-            type: 'module',
-            use: 'Docs'
-        },
-    ],
-    $selector: 'body',
-    onrender() {
-        // 加载文档
-        this.Docs.load();
-    },
-    $construct() {
-        this.navigation = webapp.createSignal();
-        this.sidebarToggled = webapp.createSignal(false);
-        return {
+        $model: {
             fragment: {
                 $fragment: true,
             },
             '.website-name': {
-                $innerText: this.Website.name
+                $innerText: () => this.Website.name,
             },
             '.webapp-version': {
                 $innerText: webapp.version
             },
             'a.website-githuburl': {
-                href: this.Website.githubUrl
+                href: () => this.Website.githubUrl
             },
             '.navigation': {
                 $if: () => this.navigation.get() && this.navigation.get().length,
@@ -107,56 +108,56 @@ webapp.createModule({
                     this.createNavigation(props.target.node);
                 },
             },
-        };
-    },
-
-    /**
-     * 插件处理
-     * @param {HTMLElement} currentNode
-     */
-    plugin(currentNode) {
-        // 代码高亮
-        var nodeList = currentNode.querySelectorAll('pre>code');
-        for (var i = 0; i < nodeList.length; i++) {
-            nodeList[i].highlightStatus = true;
-            Prism.highlightElement (nodeList[i]);
-        }
-
-        // 设置a标签的跳转属性
-        var targets = currentNode.querySelectorAll('a');
-        for (var i = 0; i < targets.length; i ++) {
-            var target = targets[i].getAttribute('target');
-            if (!target) {
-                targets[i].setAttribute('target', '_blank');
-            }
-        }
-    },
-    /**
-     * 创建导航
-     * @param {HTMLElement} currentNode
-     */
-    createNavigation(currentNode) {
-        var navigation = new Array ();
-        // 先获取子节点
-        var nodeList = currentNode.querySelectorAll('h1,h2,h3,h4,h5,h6');
-        if (nodeList && nodeList.length) {
+        },
+        
+        /**
+         * 插件处理
+         * @param {HTMLElement} currentNode
+         */
+        plugin(currentNode) {
+            // 代码高亮
+            var nodeList = currentNode.querySelectorAll('pre>code');
             for (var i = 0; i < nodeList.length; i++) {
-                var node = nodeList[i];
-                var obj = {
-                    id: node.nodeName + '-' + i,
-                    anchor: node.nodeName + '-' + i + '-' + node.innerHTML,
-                    title: node.innerHTML,
-                    serial: node.nodeName,
-                    level: parseInt(node.nodeName.toLowerCase().replace('h','')),
-                    node: node,
-                };
-
-                // 设置ID锚点
-                node.setAttribute('id', obj.anchor);
-                navigation.push(obj);
+                nodeList[i].highlightStatus = true;
+                Prism.highlightElement (nodeList[i]);
             }
-        }
-        this.navigation.set(navigation);
-    },
-
+    
+            // 设置a标签的跳转属性
+            var targets = currentNode.querySelectorAll('a');
+            for (var i = 0; i < targets.length; i ++) {
+                var target = targets[i].getAttribute('target');
+                if (!target) {
+                    targets[i].setAttribute('target', '_blank');
+                }
+            }
+        },
+        /**
+         * 创建导航
+         * @param {HTMLElement} currentNode
+         */
+        createNavigation(currentNode) {
+            var navigation = new Array ();
+            // 先获取子节点
+            var nodeList = currentNode.querySelectorAll('h1,h2,h3,h4,h5,h6');
+            if (nodeList && nodeList.length) {
+                for (var i = 0; i < nodeList.length; i++) {
+                    var node = nodeList[i];
+                    var obj = {
+                        id: node.nodeName + '-' + i,
+                        anchor: node.nodeName + '-' + i + '-' + node.innerHTML,
+                        title: node.innerHTML,
+                        serial: node.nodeName,
+                        level: parseInt(node.nodeName.toLowerCase().replace('h','')),
+                        node: node,
+                    };
+    
+                    // 设置ID锚点
+                    node.setAttribute('id', obj.anchor);
+                    navigation.push(obj);
+                }
+            }
+            this.navigation.set(navigation);
+        },
+    
+    };
 });

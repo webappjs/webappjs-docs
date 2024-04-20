@@ -19,7 +19,7 @@ webappjs is a single-page application (SPA) framework that emphasizes the separa
     - **资源定制**：支持 UI 组件库的构建 API，按需打包 CSS 样式、添加厂商前缀等，实现资源的精细化管理。
 
 - **模板渲染轻量可控：**
-  - **淘汰复杂机制**：不采用 `Proxy` 或 `Object.defineProperty` 实现数据响应式，以及避免使用 `new Function` 或 `eval` 处理模板引擎，旨在减轻框架的复杂度和潜在性能开销。
+  - **淘汰复杂机制**：不采用 `Proxy` 或 `Object.defineProperty` 实现数据响应式，也不使用 `new Function` 或 `eval` 处理模板引擎，旨在减轻框架的复杂度和潜在性能开销。
   - **追求轻量可控**：使用创新设计的信号模式，充分对响应式机制的简洁性、性能和安全性等方面的考虑，避免引入可能导致性能瓶颈或安全风险的无效特性。
 
 - **模型选择器对标CSS：**

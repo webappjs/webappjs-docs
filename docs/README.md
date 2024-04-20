@@ -67,7 +67,6 @@ configureInclude({
 ```
 
 **代码示例：**  
-**example code：**  
 ```js
 webapp.configureInclude({
     filter(e) {

@@ -183,6 +183,20 @@ webapp.createModule(function() {
 
 ## createSignal
 
+
+**JSDoc:**
+```js
+/**
+ * @typedef {Object} createSignal 信号
+ * @property {any} value 信号的值
+ * @property {Function} get 获取信号的值
+ * @property {Function} set 设置信号的值
+ * @property {Function} publish 发布
+ * @property {Function} subscribe 订阅
+ * @property {Function} clear 清理订阅
+ */
+```
+
 ## createView
 
 ## createModel

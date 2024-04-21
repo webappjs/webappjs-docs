@@ -114,7 +114,7 @@ webapp.createModule(() => {
             }, 0);
     
         },
-        onpage(e) {
+        onpageload(e) {
             // 只有一个页面
             e.module = {
                 src: 'page/home.js',

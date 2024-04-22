@@ -1,7 +1,8 @@
 webapp.createModule(function() {
     this.navigation = webapp.createSignal();
     this.sidebarToggled = webapp.createSignal(false);
-    
+    this.Website = null;
+    this.Docs = null;
     return {
         $include: [
             /**
@@ -30,12 +31,12 @@ webapp.createModule(function() {
             {
                 src: '../data/website.js',
                 type: 'module',
-                use: 'Website'
+                use: (module) => this.Website = module,
             },
             {
                 src: '../data/docs.js',
                 type: 'module',
-                use: 'Docs'
+                use: (module) => this.Docs = module,
             },
         ],
         $selector: 'body',

@@ -190,22 +190,92 @@ webapp.createModule(function() {
 ## createSignal
 
 
-**JSDoc:**
-```js
-/**
- * @typedef {Object} createSignal 信号
- * @property {any} value 信号的值
- * @property {Function} get 获取信号的值
- * @property {Function} set 设置信号的值
- * @property {Function} publish 发布
- * @property {Function} subscribe 订阅
- * @property {Function} clear 清理订阅
- */
+**.d.ts:**
+```ts
+export interface Signal {
+    
+    /**
+     * 信号的值：直接使用不会被订阅
+     */
+    value: any;
+
+    /**
+     * 获取信号的值：调用时会自适应订阅
+     */
+    get(): this['value'];
+
+    /**
+     * 设置信号的值
+     * @param {any} newValue - 设置更新的值，信号值变化时才会发布订阅
+     */
+    set(newValue: any): void;
+
+    /**
+     * 发布
+     * 无论信号值是否变化，都会发布订阅
+     */
+    publish(): void;
+
+    /**
+     * 订阅
+     * @param {(signal: Signal, unsubscribe: () => void) => void} callback - 当信号发布时会被调用的回调函数。接受两个参数：信号对象（signal）触发当前信号实例；取消订阅函数（unsubscribe）用于移除当前订阅。
+     * @param {boolean} [immediate = false] - 可选参数，指示是否在订阅后立即执行回调函数。如果为 `true`，则会立即调用 `callback` 一次，传入当前的 `value`。默认为 `false`，即仅当 `value` 后续发布（值有可能未变动）时才调用。
+     * @returns {() => void} - 返回一个取消订阅函数，用于移除当前订阅。
+     */
+    subscribe(callback: (signal: Signal, unsubscribe: () => void) => void, immediate?: boolean): () => void;
+
+    /**
+     * 清理订阅
+     */
+    clear(): void;
+
+}
 ```
+
+
+
 
 ## createView
 
+创建视图的时候，可以指定一个模型构造数据或者模型对象。模型构造数据详见 [API: createModel](#createModel)
+
+
 ## createModel
+
+
+
+**隐藏属性：**
+
+在模板的HTML标签上，使用属性名称使用双减号（`--`）前缀，用来表示隐藏或私有属性，它们不会被渲染出来，而模型声明可以对其进行当作属性选择器使用。
+
+```html
+<div id="my-element" --framework-id --framework-state>
+    This is a content div.
+</div>
+<script>
+webapp.createModel({
+    '#my-element': {
+        // ......
+    },
+    '#my-element[--framework-id]': {
+        // ......
+    },
+    '[--framework-state]': {
+        // ......
+    },
+});
+</script>
+```
+
+在HTML中，属性名称通常遵循W3C标准所定义的命名规则，使用英文单词、短语或缩写，且不包含特殊字符（如双减号 `--`）。所以在框架中支持的隐藏属性不会跟标准属性名称冲突。
+
+在HTML标签上使用双减号（`--`）前缀的隐藏属性有以下优势：
+1. **数据封装与隔离**：避免与标准HTML属性冲突，不影响页面渲染与外部工具解析。
+2. **框架内数据传递与管理**：便于框架在运行时读取并响应私有属性，不增加渲染负担，保持源码整洁。
+3. **框架扩展与维护便利**：防止命名冲突，便于添加、修改或移除私有属性，利于代码审查、调试与优化。
+4. **兼容性和可移植性**：非标准属性通常被浏览器忽略，无渲染副作用，易于与其他前端技术集成或迁移。
+
+
 
 
 ## createURL

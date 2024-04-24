@@ -192,23 +192,23 @@ webapp.createModule(function() {
 
 **.d.ts:**
 ```ts
-export interface Signal {
+interface Signal<T> {
     
     /**
      * 信号的值：直接使用不会被订阅
      */
-    value: any;
+    value: T;
 
     /**
      * 获取信号的值：调用时会自适应订阅
      */
-    get(): this['value'];
+    get(): T;
 
     /**
      * 设置信号的值
-     * @param {any} newValue - 设置更新的值，信号值变化时才会发布订阅
+     * @param newValue - 设置更新的值，信号值变化时才会发布订阅
      */
-    set(newValue: any): void;
+    set(newValue?: T): void;
 
     /**
      * 发布
@@ -218,17 +218,17 @@ export interface Signal {
 
     /**
      * 订阅
-     * @param {(signal: Signal, unsubscribe: () => void) => void} callback - 当信号发布时会被调用的回调函数。接受两个参数：信号对象（signal）触发当前信号实例；取消订阅函数（unsubscribe）用于移除当前订阅。
-     * @param {boolean} [immediate = false] - 可选参数，指示是否在订阅后立即执行回调函数。如果为 `true`，则会立即调用 `callback` 一次，传入当前的 `value`。默认为 `false`，即仅当 `value` 后续发布（值有可能未变动）时才调用。
-     * @returns {() => void} - 返回一个取消订阅函数，用于移除当前订阅。
+     * @param callback 当信号发布时会被调用的回调函数。接受两个参数：信号对象（signal）触发当前信号实例；取消订阅函数（unsubscribe）用于移除当前订阅。
+     * @param immediate [immediate = false] 可选参数，指示是否在订阅后立即执行回调函数。如果为 `true`，则会立即调用 `callback` 一次，传入当前的 `value`。默认为 `false`，即仅当 `value` 后续发布（值有可能未变动）时才调用。
+     * @returns 返回一个取消订阅函数，用于移除当前订阅。
      */
-    subscribe(callback: (signal: Signal, unsubscribe: () => void) => void, immediate?: boolean): () => void;
+    subscribe(callback: (signal: Signal<T>, unsubscribe: () => void) => void, immediate?: boolean): () => void;
 
     /**
      * 清理订阅
      */
     clear(): void;
-
+    
 }
 ```
 

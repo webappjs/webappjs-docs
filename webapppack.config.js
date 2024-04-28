@@ -13,11 +13,12 @@ const copyright = `/**
 module.exports = {
     // index 页面
     index: 'index.html',
-    // 入口文件
-    main: 'src/main.js',
     // 版本处理
-    version: function(v, code) {
-        return `webapp.setPrototype("builder", {version:"${v}"});` + code;
+    version: {
+        file: 'src/main.js',
+        value: function(v, code) {
+            return `webapp.setPrototype("builder", {version:"${v}"});` + code;
+        },
     },
     // 版权信息
     copyright: copyright,

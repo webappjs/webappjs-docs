@@ -192,7 +192,7 @@ webapp.createModule(function() {
 
 **.d.ts:**
 ```ts
-interface Signal<T> {
+type Signal<T> = {
     
     /**
      * 信号的值：直接使用不会被订阅
@@ -206,7 +206,7 @@ interface Signal<T> {
 
     /**
      * 设置信号的值
-     * @param newValue - 设置更新的值，信号值变化时才会发布订阅
+     * @param newValue 设置更新的值，信号值变化时才会发布订阅
      */
     set(newValue?: T): void;
 
@@ -229,7 +229,7 @@ interface Signal<T> {
      */
     clear(): void;
     
-}
+};
 ```
 
 
